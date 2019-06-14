@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">eCommerceProject</string>
+    <string name="title_activity_product_detail">ProductDetail</string>
+</resources>
