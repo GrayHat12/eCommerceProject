@@ -34,20 +34,28 @@ public class ProductList extends AppCompatActivity {
     private RequestParams params;
     TextView cred;
     public static int cartcount=0;
+    public static ArrayList<Integer> savedId;
     TextView cart;
-    List<Integer> ids;
+    public static ArrayList<Integer> ids;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
+        savedId=new ArrayList<>();
         list=(ListView)findViewById(R.id.listViewhere);
         cred=(TextView)findViewById(R.id.cred);
         cart=(TextView)findViewById(R.id.cart);
-        ids = new LinkedList<>();
+        ids = new ArrayList<>();
         Intent intent=getIntent();
         String uname=intent.getStringExtra("id");
         cred.setText(uname);
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                products();
+            }
+        });
         listData= new ArrayList();
         client = new AsyncHttpClient();
         params = new RequestParams();
@@ -87,6 +95,12 @@ public class ProductList extends AppCompatActivity {
                 Toast.makeText(ProductList.this,"Save",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void products() {
+        Intent crt = new Intent(this,Cart.class);
+        crt.putIntegerArrayListExtra("ids",savedId);
+        startActivity(crt);
     }
 
     private void clickedItem(Integer integer) {

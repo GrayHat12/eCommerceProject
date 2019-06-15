@@ -23,7 +23,9 @@ public class ProductDetail extends AppCompatActivity {
     TextView textView;
     Button button;
     private AsyncHttpClient client;
+    private RequestParams params;
     byte[] response;
+    int idd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,9 @@ public class ProductDetail extends AppCompatActivity {
         button=(Button)findViewById(R.id.buy);
         Intent intent=getIntent();
         final int id=Integer.parseInt(""+intent.getExtras().get("id"));
+        idd=id;
         client = new AsyncHttpClient();
+        params = new RequestParams();
         client.get("https://gray-application.herokuapp.com/product/detail/" + id, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -72,10 +76,11 @@ public class ProductDetail extends AppCompatActivity {
     private void clickedBuy(byte[] id) {
         Toast.makeText(ProductDetail.this,"Buy",Toast.LENGTH_SHORT).show();
         ProductList.cartcount+=1;
+        ProductList.savedId.add(idd);
         client = new AsyncHttpClient();
         RequestParams params=new RequestParams();
         params.put("product",response);
-        client.post("https://gray-application.herokuapp.com1",params, new AsyncHttpResponseHandler() {
+        /*client.post("https://gray-application.herokuapp.com1",params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String data=new String(responseBody);
@@ -88,6 +93,6 @@ public class ProductDetail extends AppCompatActivity {
                 Log.d("params",data);
                 error.printStackTrace();
             }
-        });
+        });*/
     }
 }
